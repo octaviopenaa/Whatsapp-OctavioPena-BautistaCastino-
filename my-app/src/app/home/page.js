@@ -4,6 +4,7 @@ export default function home(){
     return(
         <>
             <Titulo text="Hola mundo"/>
+            <p>boca</p>
         </>
     )
 }
