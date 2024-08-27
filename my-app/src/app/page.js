@@ -1,11 +1,11 @@
-import Titulo from "./components/title";
 import styles from "./page.module.css"
 
 export default function home(){
     return(
-        <>
-            <Titulo text="Hola mundo"/>
-            <seccion className={styles.barraDeEscribir}></seccion>
-        </>
+        <div className={styles.div_child}>
+            <div className={styles.barraContactos}></div>
+            <div className={styles.barraDeEscribir}>
+            </div>
+        </div>
     )
 }
