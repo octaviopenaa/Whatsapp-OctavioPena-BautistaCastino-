@@ -8,3 +8,6 @@
     margin-right: 5px;
 }
 
+.button:hover{
+    background-color: rgba(209, 215, 219, 0.177);
+}
