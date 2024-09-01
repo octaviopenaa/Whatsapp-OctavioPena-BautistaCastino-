@@ -20,8 +20,6 @@
 }
 
 .img{
-    height:50px;
-    width:50px;
     border-radius: 25px;
     margin-top: 12px;
 }
@@ -31,4 +29,8 @@
     height: 100%;
     margin-left: 20px;
     padding-bottom:3px;
+}
+
+.chatButton:hover{
+    background-color: rgba(209, 215, 219, 0.107);
 }
