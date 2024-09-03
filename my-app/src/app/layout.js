@@ -10,7 +10,19 @@ export default function RootLayout({ children }) {
       <body className={styles.body}>
         <main className={styles.main}>
           <seccion className={styles.seccion_emotes}>
-            <Image
+            <Image className={styles.emoticonos}
+              src="/images/iconoChat.png"
+              width={50}
+              height={50}
+              alt="iconochat"
+            />
+            <Image className={styles.emoticonos}
+              src="/images/iconoEstado.png"
+              width={50}
+              height={50}
+              alt="iconoEstado"
+            />
+            <Image className={styles.emoticonos}
               src="/images/iconoChat.png"
               width={50}
               height={50}
@@ -24,7 +36,7 @@ export default function RootLayout({ children }) {
                 <Titulo text="Chats"/>
               </header>
               <div>
-                <Input placeholder="Buscar" />
+                <Input placeholder="Buscar" className={styles.input}/>
               </div>
               <div className={styles.div_botones}>
                 <Button text="Todos" />

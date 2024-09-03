@@ -4,11 +4,11 @@
 .main{
     display: grid;
     grid-template-columns: 0.2fr 1.5fr 3.5fr;
-    height: 90vh;
+    height: 83.5vh;
     width: 95vw;
     background-color: white;
-    margin-top: 30px;
-    margin-bottom: 15px;
+    margin-top: 60px;
+    margin-bottom: 5px;
     margin-left: 30px;
     margin-right: 10px;
     overflow-y: hidden;
@@ -22,7 +22,7 @@
 .seccion_chats{
     background-color: #111b21;
     display: grid;
-    grid-template-rows: 0.2fr 0.7fr;
+    grid-template-rows: 0.2fr 648px;
 }
 
 .contactos{
@@ -33,8 +33,8 @@
 
 .barraDeEscribir{
     width: 100%;
-    height: 70px;
-    margin-top: 54.5%;
+    height: 75px;
+    margin-top: 54%;
     background-color: #222c33;
 }
 
@@ -65,3 +65,39 @@
     height: 100%;
 }
 
+.escribirDiv{
+    padding: 20px 20px 20px 100px;
+}
+
+.inputEscribir{
+    background-color: #333d44;
+    color:#8696a0;
+    border:solid 0px;
+    border-radius: 5px;
+    width: 90%;
+    height: 30px;
+    margin-left: 19px;
+    font-size: 15px;
+    padding:5px;
+}
+
+.input{
+    background-color: #202C33;
+    color:#8696a0;
+    border:solid 0px;
+    border-radius: 5px;
+    width: 90%;
+    height: 30px;
+    margin-left: 19px;
+    font-size: 15px;
+}
+
+.emoticonos{
+    margin: 15px 10px -5px 10px;
+    border: solid 2px #202C33;
+}
+
+.emoticonos:hover{
+    border: solid 2px #333d44;
+    border-radius: 25px;
+}

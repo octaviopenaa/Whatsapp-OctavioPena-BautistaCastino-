@@ -1,6 +1,9 @@
 import styles from "./inputs.module.css"
-export default function Input({placeholder}){
+import clsx from "clsx"
+export default function Input({placeholder, className}){
     return(
-        <input className={styles.input} placeholder={placeholder}></input>
+        <input className={className} placeholder={placeholder}>
+
+        </input>
     )
 }
