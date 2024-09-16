@@ -11,21 +11,21 @@ export default function RootLayout({ children }) {
         <main className={styles.main}>
           <seccion className={styles.seccion_emotes}>
             <Image className={styles.emoticonos}
-              src="/images/iconoChat.png"
-              width={50}
-              height={50}
+              src="/images/icono_Chat.png"
+              width={35}
+              height={35}
               alt="iconochat"
             />
             <Image className={styles.emoticonos}
-              src="/images/iconoEstado.png"
-              width={50}
-              height={50}
+              src="/images/icono_Estado.png"
+              width={35}
+              height={35}
               alt="iconoEstado"
             />
             <Image className={styles.emoticonos}
-              src="/images/iconoChat.png"
-              width={50}
-              height={50}
+              src="/images/icono_Grupo.png"
+              width={35}
+              height={35}
               alt="iconochat"
             />
           </seccion>

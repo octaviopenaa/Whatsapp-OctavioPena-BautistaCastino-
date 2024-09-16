@@ -1,5 +1,4 @@
-import styles from "./inputs.module.css"
-import clsx from "clsx"
+"use client"
 export default function Input({placeholder, className}){
     return(
         <input className={className} placeholder={placeholder}>
