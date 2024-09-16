@@ -25,23 +25,13 @@ export default function home() {
 
     return (
         <div className={styles.div_child}>
-            <div className={styles.barraContactos}>
-            </div>
-            <div className={styles.barraDeEscribir}>
-                <div className={styles.zonaEmotes}>
-                    <Image className={styles.emoji}
-                        src="/images/icono_Emoji.png"
-                        width={35}
-                        height={35}
-                        alt="iconoMicrofono"
-                    />
-                    <Image className={styles.emoji}
-                        src="/images/icono_Clip.png"
-                        width={35}
-                        height={35}
-                        alt="iconoMicrofono"
-                    />
-                </div>
+            <section className={styles.barraContactos}>
+
+            </section>
+            <section className={styles.seccionMensajes}>
+            
+            </section>
+            <section className={styles.barraDeEscribir}>
                 <div className={styles.escribirDiv}>
                     <Input className={styles.inputEscribir} placeholder="Escribir" />
                 </div>
@@ -54,7 +44,7 @@ export default function home() {
                         alt="iconoMicrofono"
                     />
                 </div>
-            </div>
+            </section>
         </div>
     )
 }
