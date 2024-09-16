@@ -2,7 +2,7 @@
 import styles from "./page.module.css"
 import Input from "./components/inputs";
 import Image from "next/image";
-
+import MessageButton from "./components/messageButton";
 export default function home() {
     /*const { socket, isConnected } = useSocket();
 
@@ -29,7 +29,7 @@ export default function home() {
 
             </section>
             <section className={styles.seccionMensajes}>
-            
+                <MessageButton text="devolveme la plata gil"/>
             </section>
             <section className={styles.barraDeEscribir}>
                 <div className={styles.escribirDiv}>
