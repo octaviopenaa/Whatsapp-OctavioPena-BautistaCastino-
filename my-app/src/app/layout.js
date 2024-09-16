@@ -23,10 +23,10 @@ export default function RootLayout({ children }) {
               alt="iconoEstado"
             />
             <Image className={styles.emoticonos}
-              src="/images/icono_Grupo.png"
+              src="/images/icono_Comunidad.png"
               width={35}
               height={35}
-              alt="iconochat"
+              alt="iconoComunidad"
             />
           </seccion>
 

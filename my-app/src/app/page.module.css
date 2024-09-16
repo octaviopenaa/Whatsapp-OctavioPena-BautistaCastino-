@@ -1,13 +1,14 @@
 .body{
     background-color: rgb(27, 27, 27);
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
+    max-height: 1000px;
 }
 .main{
     display: grid;
     grid-template-columns: 0.2fr 1.5fr 3.5fr;
-    height: 653px;
-    width: 1350px;
+    height: 100vh;
+    width: 100vw;
     background-color: white;
     overflow-y: hidden;
     overflow-x: hidden;
@@ -32,11 +33,11 @@
 .barraDeEscribir{
     width: 100%;
     height: 75px;
-    margin-top: 56.2%;
+    margin-top: 54.4%;
     background-color: #222c33;
     display:flex;
+    flex-direction:row;
     justify-content: flex-start;
-    flex-direction: start;
 }
 
 .barraContactos{
@@ -67,8 +68,8 @@
 }
 
 .escribirDiv{
-    padding: 20px 20px 20px 80px;
-    width: 700px;
+    padding-left: 100px;
+    width: 600px;
 }
 
 .inputEscribir{
@@ -78,8 +79,8 @@
     border-radius: 5px;
     width: 100%;
     height: 30px;
-    margin-left: 19px;
-    margin-top: -2px;
+    margin-left: -70px;
+    margin-top: 19px;
     font-size: 15px;
     padding:5px;
 }
@@ -100,18 +101,28 @@
     border: solid 2px #202C33;
 }
 
-.icono_Micro{
-    margin-left: 20px;
-    margin-top: 19px;
+.iconoMicro{
     border: solid 2px #202C33;
+    margin-top: 22px;
+    margin-left: -20px;
 }
-
-.icono_Micro:hover{
+.iconoMicro:hover{
     border: solid 2px #333d44;
-    border-radius: 17.5px;
+    border-radius: 25px;
 }
 
 .emoticonos:hover{
     border: solid 2px #333d44;
-    border-radius: 17.5px;
+    border-radius: 25px;
+}
+
+.zonaEmotes{
+    display:flex;
+    flex-direction:row;
+    justify-content: flex-start;
+}
+
+.emoji{
+    margin-top: 22px;
+    margin-left: 35px;
 }
