@@ -41,12 +41,22 @@ export default function home() {
     function handleChangeInput(event) {
         setMessage(event.target.value);
     }
-      
+    async function traerContactos(){
+        const response = await fetch('http://localhost:7000/Contactos', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const result = await response.json();
+        console.log(result);
+        return result
+    }
 
     return (
         <div className={styles.div_child}>
             <section className={styles.barraContactos}>
-
+                <Button onClick={traerContactos} text="hola"/>
             </section>
             <section className={styles.seccionMensajes}>
                 <MessageButton text="devolveme la plata gil"/>
