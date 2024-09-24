@@ -53,10 +53,10 @@ export default function home() {
         return result
     }
 
+
     return (
         <div className={styles.div_child}>
             <section className={styles.barraContactos}>
-                <Button onClick={traerContactos} text="hola"/>
             </section>
             <section className={styles.seccionMensajes}>
                 <MessageButton text="devolveme la plata gil"/>

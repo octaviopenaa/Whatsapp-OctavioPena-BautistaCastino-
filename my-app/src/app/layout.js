@@ -5,6 +5,9 @@ import Button from "./components/button";
 import Chatbutton from "./components/chatButton";
 import Image from "next/image";
 export default function RootLayout({ children }) {
+  async function crearContacto() {
+        
+  }
   return (
     <html lang="en">
       <body className={styles.body}>
@@ -21,6 +24,12 @@ export default function RootLayout({ children }) {
               width={35}
               height={35}
               alt="iconoEstado"
+            />
+            <Image className={styles.emoticonos}
+              src="/images/icono_Comunidad.png"
+              width={35}
+              height={35}
+              alt="iconoComunidad"
             />
             <Image className={styles.emoticonos}
               src="/images/icono_Comunidad.png"
