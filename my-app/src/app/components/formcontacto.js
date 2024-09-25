@@ -8,7 +8,7 @@ export default function FormContacto({isOpen, onClose}){
         nombre: '',
         apellido: '',
         telefono: '',
-        nombreContacto: '',
+        usuarioContacto: '',
         urlImagen: '',
       });
       const [error, setError] = useState('');
@@ -21,9 +21,9 @@ export default function FormContacto({isOpen, onClose}){
     
       function handleSubmit(event){
         event.preventDefault();
-        const { nombre, apellido, telefono, nombreContacto, urlImagen } = formData;
+        const { nombre, apellido, telefono, usuarioContacto, urlImagen } = formData;
     
-        if (!nombre || !apellido || !telefono || !nombreContacto || !urlImagen) {
+        if (!nombre || !apellido || !telefono || !usuarioContacto || !urlImagen) {
           setError('Todos los campos son obligatorios.');
           return;
         } else{
@@ -35,14 +35,14 @@ export default function FormContacto({isOpen, onClose}){
         }
         setError('');
         // Limpiamos el formulario
-        setFormData({ nombre: '', apellido: '', telefono: '', nombreContacto: '', urlImagen: '' });
+        setFormData({ nombre: '', apellido: '', telefono: '', usuarioContacto: '', urlImagen: '' });
       };
 
       if (!isOpen) return null;
 
       async function envioPost() {
         // Armo un objeto para mandarlo como formato JSON
-        const data = {formData};
+        const data = formData;
         console.log(data)
     
         // Envio un pedido POST con un JSON en el body
@@ -65,7 +65,7 @@ export default function FormContacto({isOpen, onClose}){
             <input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} />
             <input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} />
             <input name="telefono" placeholder="Teléfono" value={formData.telefono} onChange={handleChange} />
-            <input name="nombreContacto" placeholder="Nombre del Contacto" value={formData.nombreContacto} onChange={handleChange} />
+            <input name="usuarioContacto" placeholder="Nombre del Contacto" value={formData.usuarioContacto} onChange={handleChange} />
             <input name="urlImagen" placeholder="URL de la Imagen" value={formData.urlImagen} onChange={handleChange} />
             <button type="submit" onClick={envioPost}>Agregar Contacto</button>
           </form>

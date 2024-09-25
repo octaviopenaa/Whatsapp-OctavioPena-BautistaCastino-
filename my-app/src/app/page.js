@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useSocket } from "./hooks/useSocket";
 import { useEffect } from "react";
 export default function home() {
-    const { socket, isConnected } = useSocket();
+    /*const { socket, isConnected } = useSocket();
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -41,6 +41,15 @@ export default function home() {
     function handleChangeInput(event) {
         setMessage(event.target.value);
     }
+    <Button onClick={()=>socket.emit('joinRoom',{room:"boca"})} text="Conectar/ Unirse a la sala"/>
+    <Input className={styles.inputEscribir} placeholder="Escribir" onChange={handleChangeInput} />
+    <Image className={styles.iconoMicro} onClick={handleSendMessage}
+                        src="/images/icono_Micro.png"
+                        width={35}
+                        height={35}
+                        alt="iconoMicrofono"
+                    />
+    */
     async function traerContactos(){
         const response = await fetch('http://localhost:7000/Contactos', {
             method: "GET",
@@ -86,15 +95,14 @@ export default function home() {
             <section className={styles.seccionMensajes}>
                 <MessageButton text="devolveme la plata gil"/>
                 <MessageButton text="devolveme la plata gil"/>
-                <Button onClick={()=>socket.emit('joinRoom',{room:"boca"})} text="Conectar/ Unirse a la sala"/>
             </section>
             <section className={styles.barraDeEscribir}>
                 <div className={styles.escribirDiv}>
-                    <Input className={styles.inputEscribir} placeholder="Escribir" onChange={handleChangeInput} />
+                    <Input className={styles.inputEscribir} placeholder="Escribir"/>
                 </div>
                 <div>
 
-                    <Image className={styles.iconoMicro} onClick={handleSendMessage}
+                    <Image className={styles.iconoMicro}
                         src="/images/icono_Micro.png"
                         width={35}
                         height={35}
