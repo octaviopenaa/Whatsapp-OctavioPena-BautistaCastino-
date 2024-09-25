@@ -53,10 +53,35 @@ export default function home() {
         return result
     }
 
+    async function traerChats(){
+        const response = await fetch('http://localhost:7000/Chats', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const result = await response.json();
+        console.log(result);
+        return result
+    }
+
+    async function traerMensajes(){
+        const response = await fetch('http://localhost:7000/Mensajes', {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        const result = await response.json();
+        console.log(result);
+        return result
+    }
+
 
     return (
         <div className={styles.div_child}>
             <section className={styles.barraContactos}>
+                <Button text='ds'onClick={traerContactos}/>
             </section>
             <section className={styles.seccionMensajes}>
                 <MessageButton text="devolveme la plata gil"/>

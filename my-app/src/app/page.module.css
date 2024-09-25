@@ -48,9 +48,8 @@
 .div_child{
     height:100%;
     width:100%;
-    padding: 0.1px;
     display: grid;
-    grid-template-rows: 0.1fr 508px 0.1fr;
+    grid-template-rows: 0.1fr 628px 0.1fr;
 }
 
 .seccionMensajes{

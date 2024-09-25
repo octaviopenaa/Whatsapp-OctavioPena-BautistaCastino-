@@ -19,6 +19,23 @@ app.get('/Contactos', async function(req,res){
     res.send(respuesta)
 })
 
+app.get('/Chats', async function(req,res){
+    console.log(req.query) 
+    const respuesta = await MySQL.realizarQuery(`
+    SELECT * FROM Chats;
+    `)
+    res.send(respuesta)
+})
+
+app.get('/Mensajes', async function(req,res){
+    console.log(req.query) 
+    const respuesta = await MySQL.realizarQuery(`
+    SELECT * FROM Mensajes;
+    `)
+    res.send(respuesta)
+})
+
+
 app.post('/InsertarContactos', async function(req,res) {
     console.log(req.body) 
     result = await MySQL.realizarQuery(`SELECT * FROM Contactos WHERE nombre = '${req.body.nombre}' AND apellido = ${req.body.apellido} AND telefono = '${req.body.telefono}' AND usuarioContacto = '${req.body.usuarioContacto}' AND idContacto = '${req.body.idContacto}' AND imagenContacto = '${req.body.imagenContacto}'`);
@@ -36,3 +53,4 @@ app.listen(port, function(){
     console.log('   [GET] http://localhost:3000/saludo');
     console.log('   [POST] http://localhost:3000/nombreDelPedido');
 });
+

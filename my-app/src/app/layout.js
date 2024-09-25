@@ -1,13 +1,16 @@
+"use client"
 import styles from "./page.module.css"
 import Titulo from "./components/title";
 import Input from "./components/inputs";
 import Button from "./components/button";
 import Chatbutton from "./components/chatButton";
 import Image from "next/image";
+import { useState } from "react";
+import FormContacto from "./components/formcontacto";
 export default function RootLayout({ children }) {
-  async function crearContacto() {
-        
-  }
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const openForm = () => setIsFormOpen(true);
+  const closeForm = () => setIsFormOpen(false);
   return (
     <html lang="en">
       <body className={styles.body}>
@@ -31,12 +34,13 @@ export default function RootLayout({ children }) {
               height={35}
               alt="iconoComunidad"
             />
-            <Image className={styles.emoticonos}
+            <Image className={styles.emoticonos} onClick={openForm}
               src="/images/icono_Comunidad.png"
               width={35}
               height={35}
               alt="iconoComunidad"
             />
+            <FormContacto isOpen={isFormOpen} onClose={closeForm}/>
           </seccion>
 
           <seccion className={styles.seccion_chats}>

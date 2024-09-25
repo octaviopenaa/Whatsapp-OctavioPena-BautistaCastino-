@@ -1,8 +1,9 @@
 import Input from "./inputs";
 import Titulo from "./title";
+import styles from "./formcontacto.module.css"
 import { useState } from 'react';
 
-export default function FormContacto(){
+export default function FormContacto({isOpen, onClose}){
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -11,55 +12,63 @@ export default function FormContacto(){
         urlImagen: '',
       });
       const [error, setError] = useState('');
-      const [contactos, setContactos] = useState([]);
+      const [noti, setNoti] = useState('');
     
-      const handleChange(event){
+      function handleChange(event){
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value }); // Mantiene los otros campos.
       };
     
-      const handleSubmit = (e) => {
-        e.preventDefault();
+      function handleSubmit(event){
+        event.preventDefault();
         const { nombre, apellido, telefono, nombreContacto, urlImagen } = formData;
     
         if (!nombre || !apellido || !telefono || !nombreContacto || !urlImagen) {
           setError('Todos los campos son obligatorios.');
           return;
-        }
+        } else{
+          setNoti('Tu contacto se agrego correctamente')}
+
         if (telefono.length !== 10) {
           setError('El número de teléfono debe tener 10 dígitos.');
           return;
         }
-    
         setError('');
-        // Agregamos el nuevo contacto
-        setContactos((prevContactos) => [...prevContactos, formData]);
         // Limpiamos el formulario
         setFormData({ nombre: '', apellido: '', telefono: '', nombreContacto: '', urlImagen: '' });
       };
+
+      if (!isOpen) return null;
+
+      async function envioPost() {
+        // Armo un objeto para mandarlo como formato JSON
+        const data = {formData};
+        console.log(data)
     
+        // Envio un pedido POST con un JSON en el body
+        const response = await fetch('http://localhost:7000/InsertarContactos', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        console.log(response);
+      }  
       return (
-        <div>
-          <form onSubmit={handleSubmit}>
+        <div className={styles.form}>
+          <form onSubmit={handleSubmit} className={styles.formContent}>
+            <span className={styles.close} onClick={onClose}>&times;</span>
             <h1>Agregar Contactos</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
+            {noti && <p style={{ color: 'green' }}>{noti}</p>}
             <input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} />
             <input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} />
             <input name="telefono" placeholder="Teléfono" value={formData.telefono} onChange={handleChange} />
             <input name="nombreContacto" placeholder="Nombre del Contacto" value={formData.nombreContacto} onChange={handleChange} />
             <input name="urlImagen" placeholder="URL de la Imagen" value={formData.urlImagen} onChange={handleChange} />
-            <button type="submit">Agregar Contacto</button>
+            <button type="submit" onClick={envioPost}>Agregar Contacto</button>
           </form>
-    
-          <h2>Contactos Agregados:</h2>
-          <ul>
-            {contactos.map((contacto, index) => (
-              <li key={index}>
-                {contacto.nombre} {contacto.apellido} - {contacto.telefono} - {contacto.nombreContacto} <img src={contacto.urlImagen} alt={contacto.nombreContacto} width="50" />
-              </li>
-            ))}
-          </ul>
         </div>
       );
     };
-}
