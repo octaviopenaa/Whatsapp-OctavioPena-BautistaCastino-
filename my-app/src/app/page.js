@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useSocket } from "./hooks/useSocket";
 import { useEffect } from "react";
 export default function home() {
-    /*const { socket, isConnected } = useSocket();
+    const { socket, isConnected } = useSocket();
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -41,15 +41,8 @@ export default function home() {
     function handleChangeInput(event) {
         setMessage(event.target.value);
     }
-    <Button onClick={()=>socket.emit('joinRoom',{room:"boca"})} text="Conectar/ Unirse a la sala"/>
-    <Input className={styles.inputEscribir} placeholder="Escribir" onChange={handleChangeInput} />
-    <Image className={styles.iconoMicro} onClick={handleSendMessage}
-                        src="/images/icono_Micro.png"
-                        width={35}
-                        height={35}
-                        alt="iconoMicrofono"
-                    />
-    */
+    //<Button onClick={()=>socket.emit('joinRoom',{room:"boca"})} text="Conectar/ Unirse a la sala"/>
+
     async function traerContactos(){
         const response = await fetch('http://localhost:7000/Contactos', {
             method: "GET",
@@ -98,15 +91,15 @@ export default function home() {
             </section>
             <section className={styles.barraDeEscribir}>
                 <div className={styles.escribirDiv}>
-                    <Input className={styles.inputEscribir} placeholder="Escribir"/>
+                    <Input className={styles.inputEscribir} placeholder="Escribir" onChange={handleChangeInput}/>
                 </div>
                 <div>
 
-                    <Image className={styles.iconoMicro}
-                        src="/images/icono_Micro.png"
+                <Image className={styles.iconoEnviar} onClick={handleSendMessage}
+                        src="/images/icono_Enviar.png"
                         width={35}
                         height={35}
-                        alt="iconoMicrofono"
+                        alt="iconoEnviar"
                     />
                 </div>
             </section>

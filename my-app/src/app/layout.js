@@ -59,11 +59,11 @@ export default function RootLayout({ children }) {
             </seccion>
             <seccion className={styles.contactos}>
               <div className={styles.div_chatbuttons}>
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="boca" ultimoMensaje="devolveme la plata gil" />
+                <Chatbutton srcImg="/images/fotoDePerfilWoody.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
+                <Chatbutton srcImg="/images/fotoDePerfilGusteau.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
+                <Chatbutton srcImg="/images/fotoDePerfilMike.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
+                <Chatbutton srcImg="/images/fotoDePerfilSulley.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
+                <Chatbutton srcImg="/images/fotoDePerfilCaradepapa.jpg" alt="fotoPerfil" contacto="boca" ultimoMensaje="devolveme la plata gil" />
                 <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
                 <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
                 <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="nashe" ultimoMensaje="devolveme la plata gil" />

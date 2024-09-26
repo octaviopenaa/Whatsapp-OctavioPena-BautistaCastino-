@@ -108,12 +108,12 @@
     border: solid 2px #202C33;
 }
 
-.iconoMicro{
+.iconoEnviar{
     border: solid 2px #202C33;
     margin-top: 20px;
     margin-left: 60px;
 }
-.iconoMicro:hover{
+.iconoEnviar:hover{
     border: solid 2px #333d44;
     border-radius: 25px;
 }

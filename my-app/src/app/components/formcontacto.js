@@ -45,7 +45,14 @@ export default function FormContacto({isOpen, onClose}){
         const data = formData;
         console.log(data)
     
-        // Envio un pedido POST con un JSON en el body
+        /* Envio un pedido POST con un JSON en el body <select name="urlImagen" value={formData.urlImagen} onChange={handleChange}>
+              <option value="">Selecciona una imagen</option>
+              <option value="/images/fotoDePerfilWoody.jpg">Woody</option>
+              <option value="/images/fotoDePerfilCaradepapa.jpg">Caradepapa</option>
+              <option value="/images/fotoDePerfilMike.jpg">Mike Wazowski</option>
+              <option value="/images/fotoDePerfilSulley.jpg">Sulley</option>
+              <option value="/images/fotoDePerfilGusteau.jpg">Gusteau</option>
+            </select>*/
         const response = await fetch('http://localhost:7000/InsertarContactos', {
             method: "POST",
             headers: {

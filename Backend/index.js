@@ -38,18 +38,18 @@ app.get('/Mensajes', async function(req,res){
 
 app.post('/InsertarContactos', async function(req,res) {
     console.log(req.body) 
-    result = await MySQL.realizarQuery(`SELECT * FROM Contactos WHERE nombre = '${req.body.nombre}' AND apellido = '${req.body.apellido}' AND telefono = ${req.body.telefono} AND usuarioContacto = '${req.body.usuarioContacto}' AND imagenContacto = '${req.body.imagenContacto}'`);
+    result = await MySQL.realizarQuery(`SELECT * FROM Contactos WHERE nombre = '${req.body.nombre}' AND apellido = '${req.body.apellido}' AND telefono = '${req.body.telefono}' AND usuarioContacto = '${req.body.usuarioContacto}' AND imagenContacto = '${req.body.urlImagen}'`);
     if (result.length > 0) {
         res.send("Ya existe")
     } else {
-        await MySQL.realizarQuery(`INSERT INTO Contactos (nombre, apellido, telefono, usuarioContacto, imagenContacto) VALUES ('${req.body.nombre}', '${req.body.apellido}', ${req.body.telefono},'${req.body.usuarioContacto}', '${req.body.imagenContacto}')`);
+        await MySQL.realizarQuery(`INSERT INTO Contactos (nombre, apellido, telefono, usuarioContacto, imagenContacto) VALUES ('${req.body.nombre}', '${req.body.apellido}', ${req.body.telefono},'${req.body.usuarioContacto}', '${req.body.urlImagen}')`);
         res.send("ok")
     }
 })
 
 app.post('/EnviarHistorial', async function(req,res) {
     console.log(req.body) 
-    result = await MySQL.realizarQuery(`SELECT * FROM Mensajes WHERE nombre = '${req.body.nombre}' AND apellido = '${req.body.apellido}' AND telefono = ${req.body.telefono} AND usuarioContacto = '${req.body.usuarioContacto}' AND imagenContacto = '${req.body.imagenContacto}'`);
+    result = await MySQL.realizarQuery(`SELECT * FROM Mensajes WHERE nombre = '${req.body.nombre}' AND apellido = '${req.body.apellido}' AND telefono = '${req.body.telefono}' AND usuarioContacto = '${req.body.usuarioContacto}' AND imagenContacto = '${req.body.imagenContacto}'`);
     if (result.length > 0) {
         res.send("Ya existe")
     } else {
