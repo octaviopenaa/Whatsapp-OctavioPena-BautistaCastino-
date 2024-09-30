@@ -42,26 +42,18 @@ app.post('/InsertarContactos', async function(req,res) {
     if (result.length > 0) {
         res.send("Ya existe")
     } else {
-        await MySQL.realizarQuery(`INSERT INTO Contactos (nombre, apellido, telefono, usuarioContacto, imagenContacto) VALUES ('${req.body.nombre}', '${req.body.apellido}', ${req.body.telefono},'${req.body.usuarioContacto}', '${req.body.urlImagen}')`);
+        await MySQL.realizarQuery(`INSERT INTO Contactos (nombre, apellido, telefono, usuarioContacto, imagenContacto) VALUES ('${req.body.nombre}', '${req.body.apellido}', '${req.body.telefono}','${req.body.usuarioContacto}', '${req.body.urlImagen}')`);
         res.send("ok")
     }
 })
 
-app.post('/EnviarHistorial', async function(req,res) {
-    console.log(req.body) 
-    result = await MySQL.realizarQuery(`SELECT * FROM Mensajes WHERE nombre = '${req.body.nombre}' AND apellido = '${req.body.apellido}' AND telefono = '${req.body.telefono}' AND usuarioContacto = '${req.body.usuarioContacto}' AND imagenContacto = '${req.body.imagenContacto}'`);
-    if (result.length > 0) {
-        res.send("Ya existe")
-    } else {
-        await MySQL.realizarQuery(`INSERT INTO Contactos (nombre, apellido, telefono, usuarioContacto, imagenContacto) VALUES ('${req.body.nombre}', '${req.body.apellido}', ${req.body.telefono},'${req.body.usuarioContacto}', '${req.body.imagenContacto}')`);
-        res.send("ok")
-    }
-})
-app.listen(port, function(){
-    console.log(`Server running in http://localhost:${port}`);
+app.listen(port, function() {
+    console.log(`Server running at http://localhost:${port}`);
     console.log('Defined routes:');
-    console.log('   [GET] http://localhost:3000/');
-    console.log('   [GET] http://localhost:3000/saludo');
-    console.log('   [POST] http://localhost:3000/nombreDelPedido');
+    console.log('   [GET] http://localhost:7000/Contactos');
+    console.log('   [GET] http://localhost:7000/Chats');
+    console.log('   [GET] http://localhost:7000/Mensajes');
+    console.log('   [POST] http://localhost:7000/InsertarContactos');
+    console.log('   [POST] http://localhost:7000/EnviarHistorial');
 });
 

@@ -1,82 +1,11 @@
 "use client"
-import styles from "./page.module.css"
-import Titulo from "./components/title";
-import Input from "./components/inputs";
-import Button from "./components/button";
-import Chatbutton from "./components/chatButton";
-import Image from "next/image";
-import { useState } from "react";
-import FormContacto from "./components/formcontacto";
-export default function RootLayout({ children }) {
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const openForm = () => setIsFormOpen(true);
-  const closeForm = () => setIsFormOpen(false);
-  return (
-    <html lang="en">
-      <body className={styles.body}>
-        <main className={styles.main}>
-          <seccion className={styles.seccion_emotes}>
-            <Image className={styles.emoticonos}
-              src="/images/icono_Chat.png"
-              width={35}
-              height={35}
-              alt="iconochat"
-            />
-            <Image className={styles.emoticonos}
-              src="/images/icono_Estado.png"
-              width={35}
-              height={35}
-              alt="iconoEstado"
-            />
-            <Image className={styles.emoticonos}
-              src="/images/icono_Comunidad.png"
-              width={35}
-              height={35}
-              alt="iconoComunidad"
-            />
-            <Image className={styles.emoticonos} onClick={openForm}
-              src="/images/icono_Comunidad.png"
-              width={35}
-              height={35}
-              alt="iconoComunidad"
-            />
-            <FormContacto isOpen={isFormOpen} onClose={closeForm}/>
-          </seccion>
-
-          <seccion className={styles.seccion_chats}>
-            <seccion>
-              <header className={styles.header}>
-                <Titulo text="Chats"/>
-              </header>
-              <div>
-                <Input placeholder="Buscar" className={styles.input}/>
-              </div>
-              <div className={styles.div_botones}>
-                <Button text="Todos" />
-                <Button text="No leídos" />
-                <Button text="Grupos" />
-              </div>
-            </seccion>
-            <seccion className={styles.contactos}>
-              <div className={styles.div_chatbuttons}>
-                <Chatbutton srcImg="/images/fotoDePerfilWoody.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilGusteau.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilMike.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilSulley.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilCaradepapa.jpg" alt="fotoPerfil" contacto="boca" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="nashe" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="BautiPuto" ultimoMensaje="devolveme la plata gil" />
-                <Chatbutton srcImg="/images/fotoDePerfilPredem.jpg" alt="fotoPerfil" contacto="insta" ultimoMensaje="devolveme la plata gil" />
-              </div>
-            </seccion>
-          </seccion>
-
-          <seccion>{children}</seccion>
-        </main>
-
-      </body>
-    </html>
-  );
+import styles from "./login.module.css"
+export default function RootLayout({children}){
+    return(
+        <html lang="en">
+            <body className={styles.body}>
+                {children}
+            </body>
+        </html>
+    )
 }

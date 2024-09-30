@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
-
-const useSocket = (options = { withCredentials: false }, serverUrl = "ws://10.1.5.137:4000/") => {
+//ip publica 181.47.29.35 ip privada 10.1.5.137
+const useSocket = (options = { withCredentials: false }, serverUrl = "ws://181.47.29.35:4000/") => {
   const [socket, setSocket] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
 

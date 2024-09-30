@@ -1,0 +1,28 @@
+.body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: rgb(38, 37, 37);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    background-color: #111b21;
+    height: 600px;
+    width: 700px;
+    border-radius: 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+.divInputs{
+    margin-bottom: 15px;
+}
+
+.label{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+

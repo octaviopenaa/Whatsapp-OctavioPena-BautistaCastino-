@@ -1,7 +1,12 @@
 "use client"
-export default function Input({placeholder, className, onChange}){
+import clsx from "clsx"
+import styles from "./inputs.module.css"
+export default function Input({placeholder, variant, onChange, value}){
     return(
-        <input className={className} placeholder={placeholder} onChange={onChange}>
+        <input className={clsx(styles.input,{
+            [styles.inputBuscar]: variant === "Buscar",
+            [styles.inputEscribir]: variant === "Escribir",
+        })} placeholder={placeholder} onChange={onChange} value={value}>
 
         </input>
     )

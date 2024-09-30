@@ -19,40 +19,35 @@ export default function FormContacto({isOpen, onClose}){
         setFormData({ ...formData, [name]: value }); // Mantiene los otros campos.
       };
     
-      function handleSubmit(event){
+      async function handleSubmit(event){
         event.preventDefault();
         const { nombre, apellido, telefono, usuarioContacto, urlImagen } = formData;
-    
-        if (!nombre || !apellido || !telefono || !usuarioContacto || !urlImagen) {
-          setError('Todos los campos son obligatorios.');
-          return;
-        } else{
-          setNoti('Tu contacto se agrego correctamente')}
 
         if (telefono.length !== 10) {
           setError('El número de teléfono debe tener 10 dígitos.');
           return;
         }
+    
+        if (!nombre || !apellido || !telefono || !usuarioContacto || !urlImagen) {
+          setError('Todos los campos son obligatorios.');
+          return;
+        }
+        
         setError('');
+        setNoti('Tu contacto se agrego correctamente');
+
+        await envioPost();
+
         // Limpiamos el formulario
         setFormData({ nombre: '', apellido: '', telefono: '', usuarioContacto: '', urlImagen: '' });
       };
-
-      if (!isOpen) return null;
-
+      
       async function envioPost() {
         // Armo un objeto para mandarlo como formato JSON
         const data = formData;
         console.log(data)
     
-        /* Envio un pedido POST con un JSON en el body <select name="urlImagen" value={formData.urlImagen} onChange={handleChange}>
-              <option value="">Selecciona una imagen</option>
-              <option value="/images/fotoDePerfilWoody.jpg">Woody</option>
-              <option value="/images/fotoDePerfilCaradepapa.jpg">Caradepapa</option>
-              <option value="/images/fotoDePerfilMike.jpg">Mike Wazowski</option>
-              <option value="/images/fotoDePerfilSulley.jpg">Sulley</option>
-              <option value="/images/fotoDePerfilGusteau.jpg">Gusteau</option>
-            </select>*/
+        //Envio un pedido POST con un JSON en el body 
         const response = await fetch('http://localhost:7000/InsertarContactos', {
             method: "POST",
             headers: {
@@ -61,7 +56,9 @@ export default function FormContacto({isOpen, onClose}){
             body: JSON.stringify(data),
         });
         console.log(response);
-      }  
+      }
+
+      if (!isOpen) return null;  
       return (
         <div className={styles.form}>
           <form onSubmit={handleSubmit} className={styles.formContent}>
@@ -73,8 +70,15 @@ export default function FormContacto({isOpen, onClose}){
             <input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} />
             <input name="telefono" placeholder="Teléfono" value={formData.telefono} onChange={handleChange} />
             <input name="usuarioContacto" placeholder="Nombre del Contacto" value={formData.usuarioContacto} onChange={handleChange} />
-            <input name="urlImagen" placeholder="URL de la Imagen" value={formData.urlImagen} onChange={handleChange} />
-            <button type="submit" onClick={envioPost}>Agregar Contacto</button>
+            <select name="urlImagen" value={formData.urlImagen} onChange={handleChange}>
+              <option value="">Selecciona una imagen</option>
+              <option value="/images/fotoDePerfilWoody.jpg">Woody</option>
+              <option value="/images/fotoDePerfilCaradepapa.jpg">Caradepapa</option>
+              <option value="/images/fotoDePerfilMike.jpg">Mike Wazowski</option>
+              <option value="/images/fotoDePerfilSulley.jpg">Sulley</option>
+              <option value="/images/fotoDePerfilGusteau.jpg">Gusteau</option>
+            </select>
+            <button type="submit">Agregar Contacto</button>
           </form>
         </div>
       );
