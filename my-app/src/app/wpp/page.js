@@ -42,6 +42,7 @@ export default function home({}) {
     function handleSendMessage() {
         if (message.trim() === "") return;
         socket.emit('sendMessage', { message: message })
+        console.log(message)
         setMessages((prevMessages) => [...prevMessages, message]); // Añadir el mensaje al estado
         setMessage(""); // Limpiar el input después de enviar
     }
