@@ -8,13 +8,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import FormContacto from "../components/formcontacto";
 import { ContactProvider, useContacts } from "../context/ContactContext";
+import ContactManager from "../components/contactManager";
 
 export default function RootLayout({ children}) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const openForm = () => setIsFormOpen(true);
   const closeForm = () => setIsFormOpen(false);
   const [contacts, setContacts] = useState([]);
-  const {activeContacts, setActiveContacts} = useContacts();
 
   async function traerContactos() {
     const response = await fetch('http://localhost:7000/Contactos', {
@@ -29,11 +29,14 @@ export default function RootLayout({ children}) {
   }
 
   function handleContactClick(contact) {
-    // Evitar agregar contactos duplicados
-    if (!activeContacts.some((c) => c.usuarioContacto === contact.usuarioContacto)) {
-      setActiveContacts((prev) => [...prev, contact]);
-    }
-  };
+    setActiveContacts((prev) => {
+      const exists = prev.some((c) => c.telefono === contact.telefono);
+      if (!exists) {
+        return [...prev, contact];
+      }
+      return prev;
+  });
+}
 
   useEffect(() => {
     async function loadContacts() {
@@ -91,18 +94,7 @@ export default function RootLayout({ children}) {
                 </div>
               </seccion>
               <seccion className={styles.contactos}>
-                <div className={styles.div_chatbuttons}>
-                  {contacts.map((contact) => (
-                    console.log(contact.srcImg),
-                    <Chatbutton
-                      key={contact.telefono}
-                      srcImg={contact.urlImagen}
-                      alt={contact.nombre}
-                      contacto={contact.usuarioContacto}
-                      onClick={() => handleContactClick(contact)}
-                    />
-                  ))}
-                </div>
+                <ContactManager/>
               </seccion>
             </seccion>
 
