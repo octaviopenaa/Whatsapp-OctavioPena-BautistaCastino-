@@ -3,11 +3,13 @@ import { useContacts } from "../context/ContactContext";
 import Chatbutton from "../components/chatButton";
 import { useEffect, useState } from "react";
 import styles from "../components/contactManager.module.css";
+import { useSocket } from "../hooks/useSocket";
 
 export default function ContactManager() {
   const [contacts, setContacts] = useState([]);
-  const { activeContacts, setActiveContacts } = useContacts(); // Ahora disponible dentro del contexto
-  const [activeContact, setActiveContact] = useState(null); // Agregar estado para el contacto activo
+  const {setActiveContacts } = useContacts(); // Ahora disponible dentro del contexto
+  const { socket } = useSocket();
+
   // Función para cargar contactos
   async function traerContactos() {
     const response = await fetch('http://localhost:7000/Contactos', {
@@ -26,13 +28,11 @@ export default function ContactManager() {
 
   function handleContactClick(contact) {
     // Evitar agregar contactos duplicados
-    if (!activeContacts.some((c) => c.usuarioContacto === contact.usuarioContacto)) {
-        setActiveContacts((prev) => [...prev, contact]);
-    }
-    
-    // Aquí actualizas el contacto activo
-    setActiveContact(contact); // Agregar esto para actualizar el contacto activo
+    setActiveContacts([contact]);
+    socket.emit('joinRoom',{room:"boca"})
+    console.log("Contacto seleccionado:", contact);
   }
+
 
   return (
     <div className={styles.div_chatbuttons}>
