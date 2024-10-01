@@ -6,7 +6,6 @@ import { useState } from 'react';
 export default function FormContacto({isOpen, onClose}){
     const [formData, setFormData] = useState({
         nombre: '',
-        apellido: '',
         telefono: '',
         usuarioContacto: '',
         urlImagen: '',
@@ -21,14 +20,14 @@ export default function FormContacto({isOpen, onClose}){
     
       async function handleSubmit(event){
         event.preventDefault();
-        const { nombre, apellido, telefono, usuarioContacto, urlImagen } = formData;
+        const { nombre, telefono, usuarioContacto, urlImagen } = formData;
 
         if (telefono.length !== 10) {
           setError('El número de teléfono debe tener 10 dígitos.');
           return;
         }
     
-        if (!nombre || !apellido || !telefono || !usuarioContacto || !urlImagen) {
+        if (!nombre || !telefono || !usuarioContacto || !urlImagen) {
           setError('Todos los campos son obligatorios.');
           return;
         }
@@ -39,7 +38,7 @@ export default function FormContacto({isOpen, onClose}){
         await envioPost();
 
         // Limpiamos el formulario
-        setFormData({ nombre: '', apellido: '', telefono: '', usuarioContacto: '', urlImagen: '' });
+        setFormData({ nombre: '', telefono: '', usuarioContacto: '', urlImagen: '' });
       };
       
       async function envioPost() {
@@ -67,7 +66,6 @@ export default function FormContacto({isOpen, onClose}){
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {noti && <p style={{ color: 'green' }}>{noti}</p>}
             <input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} />
-            <input name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} />
             <input name="telefono" placeholder="Teléfono" value={formData.telefono} onChange={handleChange} />
             <input name="usuarioContacto" placeholder="Nombre del Contacto" value={formData.usuarioContacto} onChange={handleChange} />
             <select name="urlImagen" value={formData.urlImagen} onChange={handleChange}>

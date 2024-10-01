@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(cors());
 
+
 app.get('/Contactos', async function(req,res){
     console.log(req.query) 
     const respuesta = await MySQL.realizarQuery(`
@@ -18,6 +19,16 @@ app.get('/Contactos', async function(req,res){
     `)
     res.send(respuesta)
 })
+
+app.get('/usuarios', async (req, res) => {
+    try {
+        const usuarios = await db.collection('usuarios').find({}).toArray();
+        res.status(200).json(usuarios);
+    } catch (error) {
+        console.error('Error al obtener usuarios:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+});
 
 app.get('/Chats', async function(req,res){
     console.log(req.query) 
@@ -38,11 +49,22 @@ app.get('/Mensajes', async function(req,res){
 
 app.post('/InsertarContactos', async function(req,res) {
     console.log(req.body) 
-    result = await MySQL.realizarQuery(`SELECT * FROM Contactos WHERE nombre = '${req.body.nombre}' AND apellido = '${req.body.apellido}' AND telefono = '${req.body.telefono}' AND usuarioContacto = '${req.body.usuarioContacto}' AND imagenContacto = '${req.body.urlImagen}'`);
+    result = await MySQL.realizarQuery(`SELECT * FROM Contactos WHERE nombre = '${req.body.nombre}' AND telefono = '${req.body.telefono}' AND usuarioContacto = '${req.body.usuarioContacto}' AND imagenContacto = '${req.body.urlImagen}'`);
     if (result.length > 0) {
         res.send("Ya existe")
     } else {
-        await MySQL.realizarQuery(`INSERT INTO Contactos (nombre, apellido, telefono, usuarioContacto, imagenContacto) VALUES ('${req.body.nombre}', '${req.body.apellido}', '${req.body.telefono}','${req.body.usuarioContacto}', '${req.body.urlImagen}')`);
+        await MySQL.realizarQuery(`INSERT INTO Contactos (nombre, telefono, usuarioContacto, imagenContacto) VALUES ('${req.body.nombre}', '${req.body.telefono}','${req.body.usuarioContacto}', '${req.body.urlImagen}')`);
+        res.send("ok")
+    }
+})
+
+app.post('/InsertarUsuarios', async function(req,res) {
+    console.log(req.body) 
+    result = await MySQL.realizarQuery(`SELECT * FROM usuarios WHERE nombre = '${req.body.nombre}' AND nombre_usuario = '${req.body.nombre_usuario}' AND contraseña = '${req.body.contraseña}'`);
+    if (result.length > 0) {
+        res.send("Ya existe")
+    } else {
+        await MySQL.realizarQuery(`INSERT INTO usuarios (nombre, nombre_usuario, contraseña) VALUES ('${req.body.nombre}', '${req.body.nombre_usuario}','${req.body.contraseña}')`);
         res.send("ok")
     }
 })
