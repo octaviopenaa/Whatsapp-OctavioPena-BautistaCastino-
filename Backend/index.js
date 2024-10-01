@@ -20,15 +20,13 @@ app.get('/Contactos', async function(req,res){
     res.send(respuesta)
 })
 
-app.get('/usuarios', async (req, res) => {
-    try {
-        const usuarios = await db.collection('usuarios').find({}).toArray();
-        res.status(200).json(usuarios);
-    } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        res.status(500).json({ message: 'Error interno del servidor' });
-    }
-});
+app.get('/usuarios', async function(req,res){
+    console.log(req.query) 
+    const respuesta = await MySQL.realizarQuery(`
+    SELECT id_usuario FROM usuarios;
+    `)
+    res.send(respuesta)
+})
 
 app.get('/Chats', async function(req,res){
     console.log(req.query) 
@@ -60,11 +58,11 @@ app.post('/InsertarContactos', async function(req,res) {
 
 app.post('/InsertarUsuarios', async function(req,res) {
     console.log(req.body) 
-    result = await MySQL.realizarQuery(`SELECT * FROM usuarios WHERE nombre = '${req.body.nombre}' AND nombre_usuario = '${req.body.nombre_usuario}' AND contraseña = '${req.body.contraseña}'`);
+    result = await MySQL.realizarQuery(`SELECT * FROM usuarios WHERE nombre = '${req.body.nombre}' AND nombre_usuario = '${req.body.nombre_usuario}' AND contraseña = '${req.body.contraseña}' AND telefono = '${req.body.telefono}'`);
     if (result.length > 0) {
         res.send("Ya existe")
     } else {
-        await MySQL.realizarQuery(`INSERT INTO usuarios (nombre, nombre_usuario, contraseña) VALUES ('${req.body.nombre}', '${req.body.nombre_usuario}','${req.body.contraseña}')`);
+        await MySQL.realizarQuery(`INSERT INTO usuarios (nombre, nombre_usuario, contraseña, telefono) VALUES ('${req.body.nombre}', '${req.body.nombre_usuario}','${req.body.contraseña}', '${req.body.telefono}')`);
         res.send("ok")
     }
 })
