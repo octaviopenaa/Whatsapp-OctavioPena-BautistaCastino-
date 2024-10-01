@@ -11,6 +11,7 @@ const MiComponente = () => {
         nombre: '',
         nombre_usuario: '',
         contraseña: '',
+        telefono: '',
     });
     const [loginData, setLoginData] = useState({
         nombre_usuario: '',
@@ -36,8 +37,13 @@ const MiComponente = () => {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        const { nombre, nombre_usuario, contraseña } = formData;
+        const { nombre, nombre_usuario, contraseña, telefono } = formData;
 
+        if (telefono !== 10) {
+            setError('El telefono debe tener exactamente 10 digitos')
+            return
+        }
+        
         if (contraseña.length < 5) {
             setError('Contraseña muy insegura');
             return;
@@ -54,7 +60,7 @@ const MiComponente = () => {
         await envioPost();
 
         // Limpiar el formulario
-        setFormData({ nombre: '', nombre_usuario: '', contraseña: '' });
+        setFormData({ nombre: '', nombre_usuario: '', contraseña: '', telefono: '' });
     };
 
     async function envioPost() {
@@ -83,6 +89,7 @@ const MiComponente = () => {
                         <Input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleOnChange} />
                         <Input name="nombre_usuario" placeholder="Nombre de usuario" value={formData.nombre_usuario} onChange={handleOnChange} />
                         <Input name="contraseña" placeholder="Contraseña" type="password" value={formData.contraseña} onChange={handleOnChange} />
+                        <Input name="telefono" placeholder="Telefono" value={formData.telefono} onChange={handleOnChange} />
                         <button className={styles.button} type="submit">Registrarse</button>
                     </div>
                 ) : (
