@@ -16,6 +16,7 @@ const MiComponente = () => {
     const [loginData, setLoginData] = useState({
         nombre_usuario: '',
         contraseña: '',
+        telefono: '',
     });
     const [error, setError] = useState('');
     const [noti, setNoti] = useState('');
@@ -34,14 +35,55 @@ const MiComponente = () => {
             setLoginData({ ...loginData, [name]: value });
         }
     };
+    //funciones para logearse
 
+    const handleLoginSubmit = async (event) => {
+        event.preventDefault();
+        const { nombre_usuario, contraseña, telefono } = loginData;
+    
+        // Validar que todos los campos estén completos
+        if (!nombre_usuario || !contraseña || !telefono) {
+            setError('Todos los campos son obligatorios.');
+            return;
+        }
+    
+        // Hacer una solicitud GET al endpoint /usuarios
+        const response = await fetch(`http://localhost:7000/usuarios?nombre_usuario=${nombre_usuario}`);
+    
+        if (!response.ok) {
+            setError('Error al obtener datos de usuarios.');
+            return;
+        }
+    
+        const usuarios = await response.json();
+    
+        // Validar si el usuario existe
+        if (usuarios.length === 0) {
+            setError('Usuario no encontrado.');
+            return;
+        }
+    
+        // Obtener el usuario del resultado
+        const usuario = usuarios[0];
+    
+        // Validar la contraseña y el teléfono
+        if (usuario.contraseña !== contraseña || usuario.telefono !== telefono) {
+            setError('Credenciales inválidas.');
+            return;
+        }
+    
+        // Si las credenciales son correctas
+        setNoti('Inicio de sesión exitoso');
+        // Aquí podrías redirigir al usuario a otra página
+    };
+    //funciones para registrase
     async function handleSubmit(event) {
         event.preventDefault();
         const { nombre, nombre_usuario, contraseña, telefono } = formData;
 
         if (telefono !== 10) {
             setError('El telefono debe tener exactamente 10 digitos')
-            return
+            return;
         }
         
         if (contraseña.length < 5) {
@@ -80,7 +122,7 @@ const MiComponente = () => {
     
     return (
         <div className={styles.container}>
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form className={styles.form} onSubmit={mostrarRegistro ? handleSubmit : handleLoginSubmit}>
                 {mostrarRegistro ? (
                     <div className={styles.divInputs}>
                         <h3>Formulario de Registro</h3>
@@ -99,10 +141,13 @@ const MiComponente = () => {
                         {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
                         {loginNoti && <p style={{ color: 'green' }}>{loginNoti}</p>}
                         <div className={styles.divInputs}>
-                            <Input name="nombre_usuario" placeholder="Nombre de usuario" value={loginData.nombre_usuario} onChange={handleOnChange} />
+                            <Input name="nombre_usuario" placeholder="Nombre de Usuario" value={loginData.nombre_usuario} onChange={handleOnChange} />
                         </div>
                         <div className={styles.divInputs}>
                             <Input name="contraseña" placeholder="Contraseña" type="password" value={loginData.contraseña} onChange={handleOnChange} />
+                        </div>
+                        <div className={styles.divInputs}>
+                            <Input name="telefono" placeholder="Numero de Telefono" value={loginData.telefono} onChange={handleOnChange} />
                         </div>
                         <button className={styles.button} type="submit">Ingresar</button>
                         <h3 className={styles.h3} onClick={manejarRegistro}>

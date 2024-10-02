@@ -12,6 +12,30 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
+// Endpoint para validar usuarios
+app.get('/usuarios', async function (req, res) {
+    const { nombre_usuario } = req.query;
+
+    // Validar que se pase el nombre de usuario
+    if (!nombre_usuario) {
+        return res.status(400).json({ message: 'El nombre de usuario es obligatorio.' });
+    }
+
+    try {
+        const respuesta = await MySQL.realizarQuery(`
+            SELECT nombre_usuario, contraseña, telefono 
+            FROM usuarios 
+            WHERE nombre_usuario = ?;
+        `, [nombre_usuario]);
+
+        // Retornar los resultados
+        res.json(respuesta);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error en la base de datos' });
+    }
+});
+
 app.get('/Contactos', async function(req,res){
     console.log(req.query) 
     const respuesta = await MySQL.realizarQuery(`
@@ -23,7 +47,7 @@ app.get('/Contactos', async function(req,res){
 app.get('/usuarios', async function(req,res){
     console.log(req.query) 
     const respuesta = await MySQL.realizarQuery(`
-    SELECT id_usuario FROM usuarios;
+    SELECT nombre_usuario, contraseña, telefono FROM usuarios;
     `)
     res.send(respuesta)
 })
@@ -66,6 +90,21 @@ app.post('/InsertarUsuarios', async function(req,res) {
         res.send("ok")
     }
 })
+
+app.post('/validarUsuario', (req, res) => {
+    const { nombre_usuario, contraseña, telefono } = req.body;
+
+    // Busca el usuario en la base de datos
+    const usuario = usuarios.find(u => u.nombre_usuario === nombre_usuario);
+
+    // Si el usuario no existe o la contraseña o el teléfono no coinciden
+    if (!usuario || usuario.contraseña !== contraseña || usuario.telefono !== telefono) {
+        return res.status(401).json({ message: 'Credenciales inválidas' });
+    }
+
+    // Si las credenciales son correctas
+    return res.status(200).json({ message: 'Inicio de sesión exitoso' });
+});
 
 app.listen(port, function() {
     console.log(`Server running at http://localhost:${port}`);
