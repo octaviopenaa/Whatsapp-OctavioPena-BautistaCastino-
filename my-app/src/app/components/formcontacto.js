@@ -70,11 +70,11 @@ export default function FormContacto({isOpen, onClose}){
             <input name="usuarioContacto" placeholder="Nombre del Contacto" value={formData.usuarioContacto} onChange={handleChange} />
             <select name="urlImagen" value={formData.urlImagen} onChange={handleChange}>
               <option value="">Selecciona una imagen</option>
-              <option value="/images/fotoDePerfilWoody.jpg">Woody</option>
-              <option value="/images/fotoDePerfilCaradepapa.jpg">Caradepapa</option>
-              <option value="/images/fotoDePerfilMike.jpg">Mike Wazowski</option>
-              <option value="/images/fotoDePerfilSulley.jpg">Sulley</option>
-              <option value="/images/fotoDePerfilGusteau.jpg">Gusteau</option>
+              <option value="fotoDePerfilWoody.jpg">Woody</option>
+              <option value="fotoDePerfilCaradepapa.jpg">Caradepapa</option>
+              <option value="fotoDePerfilMike.jpg">Mike Wazowski</option>
+              <option value="fotoDePerfilSulley.jpg">Sulley</option>
+              <option value="fotoDePerfilGusteau.jpg">Gusteau</option>
             </select>
             <button type="submit">Agregar Contacto</button>
           </form>

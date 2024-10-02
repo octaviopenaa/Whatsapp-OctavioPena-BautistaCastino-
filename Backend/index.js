@@ -82,28 +82,31 @@ app.post('/InsertarContactos', async function(req,res) {
 
 app.post('/InsertarUsuarios', async function(req,res) {
     console.log(req.body) 
-    result = await MySQL.realizarQuery(`SELECT * FROM usuarios WHERE nombre = '${req.body.nombre}' AND nombre_usuario = '${req.body.nombre_usuario}' AND contraseña = '${req.body.contraseña}' AND telefono = '${req.body.telefono}'`);
+    result = await MySQL.realizarQuery(`SELECT * FROM usuarios WHERE nombre_usuario = '${req.body.nombre_usuario}' AND contraseña = '${req.body.contraseña}' AND telefono = '${req.body.telefono}'`);
     if (result.length > 0) {
         res.send("Ya existe")
     } else {
-        await MySQL.realizarQuery(`INSERT INTO usuarios (nombre, nombre_usuario, contraseña, telefono) VALUES ('${req.body.nombre}', '${req.body.nombre_usuario}','${req.body.contraseña}', '${req.body.telefono}')`);
+        await MySQL.realizarQuery(`INSERT INTO usuarios (nombre_usuario, contraseña, telefono) VALUES ('${req.body.nombre_usuario}','${req.body.contraseña}', '${req.body.telefono}')`);
         res.send("ok")
     }
 })
 
 app.post('/validarUsuario', (req, res) => {
-    const { nombre_usuario, contraseña, telefono } = req.body;
-
+    const resultado=0
     // Busca el usuario en la base de datos
-    const usuario = usuarios.find(u => u.nombre_usuario === nombre_usuario);
+    if(nombre_usuario === req.body.nombre_usuario && contraseña && req.body.contraseña && telefono === req.body.telefono){
+        resultado=1;
+        res.send(resultado)
+    }
 
     // Si el usuario no existe o la contraseña o el teléfono no coinciden
     if (!usuario || usuario.contraseña !== contraseña || usuario.telefono !== telefono) {
-        return res.status(401).json({ message: 'Credenciales inválidas' });
+        resultado=-1;
+        res.send(resultado)
     }
 
     // Si las credenciales son correctas
-    return res.status(200).json({ message: 'Inicio de sesión exitoso' });
+    return resultado;
 });
 
 app.listen(port, function() {

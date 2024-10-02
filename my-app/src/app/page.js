@@ -8,7 +8,6 @@ import Input from "./components/inputs";
 const MiComponente = () => {
     const [mostrarRegistro, setMostrarRegistro] = useState(false);
     const [formData, setFormData] = useState({
-        nombre: '',
         nombre_usuario: '',
         contraseña: '',
         telefono: '',
@@ -46,40 +45,11 @@ const MiComponente = () => {
             setError('Todos los campos son obligatorios.');
             return;
         }
-    
-        // Hacer una solicitud GET al endpoint /usuarios
-        const response = await fetch(`http://localhost:7000/usuarios?nombre_usuario=${nombre_usuario}`);
-    
-        if (!response.ok) {
-            setError('Error al obtener datos de usuarios.');
-            return;
-        }
-    
-        const usuarios = await response.json();
-    
-        // Validar si el usuario existe
-        if (usuarios.length === 0) {
-            setError('Usuario no encontrado.');
-            return;
-        }
-    
-        // Obtener el usuario del resultado
-        const usuario = usuarios[0];
-    
-        // Validar la contraseña y el teléfono
-        if (usuario.contraseña !== contraseña || usuario.telefono !== telefono) {
-            setError('Credenciales inválidas.');
-            return;
-        }
-    
-        // Si las credenciales son correctas
-        setNoti('Inicio de sesión exitoso');
-        // Aquí podrías redirigir al usuario a otra página
     };
     //funciones para registrase
     async function handleSubmit(event) {
         event.preventDefault();
-        const { nombre, nombre_usuario, contraseña, telefono } = formData;
+        const {nombre_usuario, contraseña, telefono } = formData;
 
         if (telefono !== 10) {
             setError('El telefono debe tener exactamente 10 digitos')
@@ -91,7 +61,7 @@ const MiComponente = () => {
             return;
         }
 
-        if (!nombre || !nombre_usuario || !contraseña) {
+        if (!nombre_usuario || !contraseña) {
             setError('Todos los campos son obligatorios.');
             return;
         }
@@ -102,7 +72,7 @@ const MiComponente = () => {
         await envioPost();
 
         // Limpiar el formulario
-        setFormData({ nombre: '', nombre_usuario: '', contraseña: '', telefono: '' });
+        setFormData({ nombre_usuario: '', contraseña: '', telefono: '' });
     };
 
     async function envioPost() {
@@ -110,6 +80,20 @@ const MiComponente = () => {
         console.log(data);
 
         const response = await fetch('http://localhost:7000/InsertarUsuarios', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        console.log(response);
+    }
+
+    async function validacion() {
+        const data = loginData;
+        console.log(data);
+
+        const response = await fetch('http://localhost:7000/validarUsuario', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -128,7 +112,6 @@ const MiComponente = () => {
                         <h3>Formulario de Registro</h3>
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                         {noti && <p style={{ color: 'green' }}>{noti}</p>}
-                        <Input name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleOnChange} />
                         <Input name="nombre_usuario" placeholder="Nombre de usuario" value={formData.nombre_usuario} onChange={handleOnChange} />
                         <Input name="contraseña" placeholder="Contraseña" type="password" value={formData.contraseña} onChange={handleOnChange} />
                         <Input name="telefono" placeholder="Telefono" value={formData.telefono} onChange={handleOnChange} />
