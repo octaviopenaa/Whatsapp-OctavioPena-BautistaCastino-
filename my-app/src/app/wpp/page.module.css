@@ -64,6 +64,9 @@
     width: 100%;
     height:63px;
     padding-top: 10px;
+    display: flex;
+    flex-direction:row ;
+    justify-content: space-between;
 }
 .div_botones{
     margin:10px 0 10px 20px;
@@ -133,3 +136,4 @@
     margin-top: 22px;
     margin-left: 35px;
 }
+

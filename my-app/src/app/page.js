@@ -20,10 +20,14 @@ const MiComponente = () => {
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [user_id, setUserId] = useState('') 
-    const router = useRouter
+    const router = useRouter()
 
     const manejarRegistro = () => {
         setMostrarRegistro(true);
+    };
+
+    const manejarRegistroFalse = () => {
+        setMostrarRegistro(false);
     };
 
     function handleOnChange(event) {
@@ -52,11 +56,9 @@ const MiComponente = () => {
           console.log(result)
           
           if (result.validation === 1) {
-            const user_id = result.ID_USER;
-            setUserId(user_id);
-            await router.push("/wpp");
             setLoginNoti('Te logueaste con exito'); // Mensaje en verde
             setLoginError(''); // Limpiar error si lo había
+            router.push("/wpp");
           } else if (result.validation === -1) {
             setLoginError('Nombre de usuario, contraseña, o telefono incorrectos'); // Mensaje en rojo
             setLoginNoti(''); // Limpiar éxito si lo había
@@ -134,13 +136,23 @@ const MiComponente = () => {
             <form className={styles.form} onSubmit={mostrarRegistro ? handleSubmit : handleLoginSubmit}>
                 {mostrarRegistro ? (
                     <div className={styles.divInputs}>
-                        <h3>Formulario de Registro</h3>
+                        <h2 className={styles.h3}>Formulario de Registro</h2>
+                        <div className={styles.line}></div>
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                         {noti && <p style={{ color: 'green' }}>{noti}</p>}
-                        <Input name="nombre_usuario" placeholder="Nombre de usuario" value={formData.nombre_usuario} onChange={handleOnChange} />
-                        <Input name="contraseña" placeholder="Contraseña" type="password" value={formData.contraseña} onChange={handleOnChange} />
-                        <Input name="telefono" placeholder="Telefono" value={formData.telefono} onChange={handleOnChange} />
+                        <div className={styles.divInputs}>
+                            <Input name="nombre_usuario" placeholder="Nombre de usuario" value={formData.nombre_usuario} onChange={handleOnChange} />
+                        </div>
+                        <div className={styles.divInputs}>
+                            <Input name="contraseña" placeholder="Contraseña" type="password" value={formData.contraseña} onChange={handleOnChange} />
+                        </div>
+                        <div className={styles.divInputs}>
+                            <Input name="telefono" placeholder="Telefono" value={formData.telefono} onChange={handleOnChange} />
+                        </div>
+                        <div className={styles.line}></div>
                         <button className={styles.button} type="submit">Registrarse</button>
+                        <div className={styles.lineRes}></div>
+                        <button className={styles.buttonRegistrarse} type="submit">Volver</button>
                     </div>
                 ) : (
                     <div>
@@ -158,10 +170,11 @@ const MiComponente = () => {
                             <Input name="telefono" placeholder="Numero de Telefono" type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
                         </div>
                         <button className={styles.button} type="submit">Ingresar</button>
-                        <h3 className={styles.h3} onClick={manejarRegistro}>
-                            ¿No tienes cuenta? Ingresate aquí
-                        </h3>
                         <div className={styles.line}></div>
+                        <h3 className={styles.h3}>
+                            ¿No tienes cuenta?
+                        </h3>
+                        <button onClick={manejarRegistro} className={styles.buttonRegistrarse}>Ingresate aquí</button>
                     </div>
                 )}
             </form>

@@ -6,7 +6,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #014d6b;   
+    background-color: #102c36;  
+    font-family: Arial, Helvetica, sans-serif; 
 }
 
 .form{
@@ -17,7 +18,7 @@
     padding: 10px;
     text-align: center;
     box-shadow: 7px 13px 37px #000;
-    border-top: 4px solid #017bab;
+    border-top: 4px solid #2f6e86;
 }
 
 .divInputs{
@@ -38,19 +39,39 @@
     margin-right: auto; 
 }
 
+.lineRes {
+    height: 2px; 
+    background-color: white; 
+    margin: 25px 0px 25px 0px; 
+    width: 40%; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
 .button {
     width: 635px;
     height: 40px;
     margin-left: auto; 
     margin-right: auto;
-    background-color: #017bab;
+    background-color: #2f6e86;
     border: none;
     color: white;
+    font-family: Arial, Helvetica, sans-serif; 
+}
 
+.buttonRegistrarse {
+    width: 100px;
+    height: 40px;
+    margin-left: auto; 
+    margin-right: auto;
+    background-color: #2f6e86;
+    border: none;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif; 
 }
 
 .h3 {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
-    margin-top: 50px;
+    margin-top: 30px;
 }
