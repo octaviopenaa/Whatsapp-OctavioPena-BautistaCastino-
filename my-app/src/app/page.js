@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import styles from "./login.module.css";
 import Titulo from "./components/title";
 import Input from "./components/inputs";
@@ -12,15 +12,15 @@ const MiComponente = () => {
         contraseña: '',
         telefono: '',
     });
-    const [loginData, setLoginData] = useState({
-        nombre_usuario: '',
-        contraseña: '',
-        telefono: '',
-    });
     const [error, setError] = useState('');
     const [noti, setNoti] = useState('');
     const [loginError, setLoginError] = useState('');
     const [loginNoti, setLoginNoti] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [phone, setPhone] = useState('');
+    const [user_id, setUserId] = useState('') 
+    const router = useRouter
 
     const manejarRegistro = () => {
         setMostrarRegistro(true);
@@ -30,29 +30,54 @@ const MiComponente = () => {
         const { name, value } = event.target;
         if (mostrarRegistro) {
             setFormData({ ...formData, [name]: value });
-        } else {
-            setLoginData({ ...loginData, [name]: value });
         }
     };
     //funciones para logearse
 
-    const handleLoginSubmit = async (event) => {
-        event.preventDefault();
-        const { nombre_usuario, contraseña, telefono } = loginData;
+    async function handleLoginSubmit (e){
+        e.preventDefault();
     
-        // Validar que todos los campos estén completos
-        if (!nombre_usuario || !contraseña || !telefono) {
-            setError('Todos los campos son obligatorios.');
-            return;
+        const loginData = { username, password, phone }; // Agregamos el teléfono
+    
+        try {
+          const res = await fetch('http://localhost:7000/validarUsuario', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData),
+          });
+          console.log(loginData)
+          const result = await res.json();
+          console.log(result)
+          
+          if (result.validation === 1) {
+            const user_id = result.ID_USER;
+            setUserId(user_id);
+            await router.push("/wpp");
+            setLoginNoti('Te logueaste con exito'); // Mensaje en verde
+            setLoginError(''); // Limpiar error si lo había
+          } else if (result.validation === -1) {
+            setLoginError('Nombre de usuario, contraseña, o telefono incorrectos'); // Mensaje en rojo
+            setLoginNoti(''); // Limpiar éxito si lo había
+          } else {
+            setLoginError('Error'); // Mensaje en rojo
+            setLoginNoti(''); // Limpiar éxito si lo había
+          }
+
+        } catch (error) {
+          setLoginError('Ocurrió un error mientras te logueabas'); // Mensaje en rojo
+          setLoginNoti(''); // Limpiar éxito si lo había
         }
-    };
+      };
+
     //funciones para registrase
     async function handleSubmit(event) {
         event.preventDefault();
         const {nombre_usuario, contraseña, telefono } = formData;
 
-        if (telefono !== 10) {
-            setError('El telefono debe tener exactamente 10 digitos')
+        if (telefono < 10) {
+            setError('El telefono debe tener 10 digitos o mas')
             return;
         }
         
@@ -124,13 +149,13 @@ const MiComponente = () => {
                         {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
                         {loginNoti && <p style={{ color: 'green' }}>{loginNoti}</p>}
                         <div className={styles.divInputs}>
-                            <Input name="nombre_usuario" placeholder="Nombre de Usuario" value={loginData.nombre_usuario} onChange={handleOnChange} />
+                            <Input name="nombre_usuario" placeholder="Nombre de Usuario" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
                         </div>
                         <div className={styles.divInputs}>
-                            <Input name="contraseña" placeholder="Contraseña" type="password" value={loginData.contraseña} onChange={handleOnChange} />
+                            <Input name="contraseña" placeholder="Contraseña" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         <div className={styles.divInputs}>
-                            <Input name="telefono" placeholder="Numero de Telefono" value={loginData.telefono} onChange={handleOnChange} />
+                            <Input name="telefono" placeholder="Numero de Telefono" type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
                         </div>
                         <button className={styles.button} type="submit">Ingresar</button>
                         <h3 className={styles.h3} onClick={manejarRegistro}>

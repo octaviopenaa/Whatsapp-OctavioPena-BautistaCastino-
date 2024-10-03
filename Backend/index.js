@@ -12,30 +12,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-// Endpoint para validar usuarios
-app.get('/usuarios', async function (req, res) {
-    const { nombre_usuario } = req.query;
-
-    // Validar que se pase el nombre de usuario
-    if (!nombre_usuario) {
-        return res.status(400).json({ message: 'El nombre de usuario es obligatorio.' });
-    }
-
-    try {
-        const respuesta = await MySQL.realizarQuery(`
-            SELECT nombre_usuario, contraseña, telefono 
-            FROM usuarios 
-            WHERE nombre_usuario = ?;
-        `, [nombre_usuario]);
-
-        // Retornar los resultados
-        res.json(respuesta);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error en la base de datos' });
-    }
-});
-
 app.get('/Contactos', async function(req,res){
     console.log(req.query) 
     const respuesta = await MySQL.realizarQuery(`
@@ -91,7 +67,7 @@ app.post('/InsertarUsuarios', async function(req,res) {
     }
 })
 
-app.post('/validarUsuario', (req, res) => {
+/*app.post('/validarUsuario', (req, res) => {
     const resultado=0
     // Busca el usuario en la base de datos
     if(nombre_usuario === req.body.nombre_usuario && contraseña && req.body.contraseña && telefono === req.body.telefono){
@@ -107,7 +83,42 @@ app.post('/validarUsuario', (req, res) => {
 
     // Si las credenciales son correctas
     return resultado;
-});
+});*/
+
+
+app.post('/validarUsuario', async (req, res) => {
+    const { username, phone, password } = req.body; // Captura los datos del frontend
+    console.log({username, phone, password});
+    try {
+      // Consulta sin WHERE, seleccionando todos los usuarios
+      const query = 'SELECT * FROM usuarios';
+      const usuarios = await MySQL.realizarQuery(query); // Ejecuta la consulta sin filtros
+  
+      // Busca manualmente si existe un usuario con el nombre de usuario y teléfono proporcionados
+      const usuario = usuarios.find(
+        (u) => u.nombre_usuario === username && u.telefono === phone
+      );
+
+      console.log(usuario)
+  
+      if (!usuario) {
+        return res.json({ validation: -1 }); // Usuario no encontrado
+      }
+  
+      // Verifica si la contraseña es correcta
+      if (usuario.contraseña !== password) {
+        return res.json({ validation: -1 }); // Contraseña incorrecta
+      }
+      
+      ID_USER = usuario.id_usuario
+      console.log(ID_USER)
+      // Si pasa todas las validaciones
+      return res.json({ID_USER, validation : 1})
+    } catch (error) {
+      console.error('Error en la validación del login:', error);
+      return res.status(500).json({ validation: 0 }); // Error en la validación
+    }
+  });
 
 app.listen(port, function() {
     console.log(`Server running at http://localhost:${port}`);
@@ -116,6 +127,7 @@ app.listen(port, function() {
     console.log('   [GET] http://localhost:7000/Chats');
     console.log('   [GET] http://localhost:7000/Mensajes');
     console.log('   [POST] http://localhost:7000/InsertarContactos');
+    console.log('   [POST] http://localhost:7000/validarUsuario');
     console.log('   [POST] http://localhost:7000/EnviarHistorial');
 });
 
