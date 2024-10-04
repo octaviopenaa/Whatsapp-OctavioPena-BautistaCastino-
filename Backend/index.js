@@ -1,15 +1,44 @@
-var express = require('express'); //Tipo de servidor: Express
-var bodyParser = require('body-parser'); //Convierte los JSON
-const MySQL = require('./modulos/mysql')
-const cors = require('cors');
+const express = require('express');
+const bodyParser = require('body-parser');
+const MySQL = require('./modulos/mysql');
+const session = require('express-session');
+const cors = require('cors'); 
 
-var app = express(); //Inicializo express
-var port = 7000; //Ejecuto el servidor en el puerto 3000
-// process.env.PORT || 
-// Convierte una petición recibida (POST-GET...) a objeto JSON
-app.use(bodyParser.urlencoded({extended:false}));
+const app = express();
+app.use(cors({
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    methods: ["GET", "POST", "PUT", "DELETE"], 
+    credentials: true 
+}));
+
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+
+const LISTEN_PORT = 7000;
+
+const server = app.listen(LISTEN_PORT, () => {
+    console.log(`Servidor NodeJS corriendo en http://localhost:${LISTEN_PORT}/`);
+});
+
+const io = require('socket.io')(server, {
+    cors: {
+        origin: ["http://localhost:3000", "http://localhost:3001"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true
+    }
+});
+
+const sessionMiddleware = session({
+    secret: "supersarasa",
+    resave: false,
+    saveUninitialized: false
+});
+
+app.use(sessionMiddleware);
+
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, {}, next);
+});
 
 
 app.get('/Contactos', async function(req,res){
@@ -113,21 +142,71 @@ app.post('/validarUsuario', async (req, res) => {
       ID_USER = usuario.id_usuario
       console.log(ID_USER)
       // Si pasa todas las validaciones
-      return res.json({ID_USER, validation : 1})
+      return res.json({usuario, validation : 1})
     } catch (error) {
       console.error('Error en la validación del login:', error);
       return res.status(500).json({ validation: 0 }); // Error en la validación
     }
   });
 
-app.listen(port, function() {
-    console.log(`Server running at http://localhost:${port}`);
-    console.log('Defined routes:');
-    console.log('   [GET] http://localhost:7000/Contactos');
-    console.log('   [GET] http://localhost:7000/Chats');
-    console.log('   [GET] http://localhost:7000/Mensajes');
-    console.log('   [POST] http://localhost:7000/InsertarContactos');
-    console.log('   [POST] http://localhost:7000/validarUsuario');
-    console.log('   [POST] http://localhost:7000/EnviarHistorial');
+
+
+
+  io.on("connection", (socket) => {
+    const req = socket.request;
+
+    socket.on('joinRoom', data => {
+        console.log("🚀 ~ io.on ~ req.session.room:", req.session.room)
+        if (existeSala(data.room)) {
+            if (req.session.room != undefined && req.session.room.length > 0)
+                socket.leave(req.session.room);
+            req.session.room = data.room;
+            socket.join(req.session.room);
+            console.log("entraste")
+            io.to(req.session.room).emit('entroSala', { room: req.session.room, success: true });
+        }
+        else {
+            codigos.push(data.room)
+            req.session.room = data.room;
+            socket.join(req.session.room);
+            io.to(req.session.room).emit('salaCreada', { room: req.session.room, success: true });
+        }
+
+    });
+
+    socket.on('pingAll', data => {
+        console.log("PING ALL: ", data);
+        io.emit('pingAll', { event: "Ping to all", message: data });
+    });
+
+    socket.on('sendMessage', data => {
+        io.to(req.session.room).emit('newMessage', { room: req.session.room, message: data });
+    });
+
+    socket.on('disconnect', () => {
+        console.log("Disconnect");
+    })
+
+    socket.on('leaveRoom', () => {
+        socket.leave(req.session.room);
+        console.log("Disconnect");
+    })
+
+    socket.on('visto', data => {
+        console.log(data)
+        io.to(req.session.room).emit('nuevoVisto', { room: req.session.room, message: data });
+    });
+
 });
 
+
+function existeSala(room) {
+    for (let index = 0; index < codigos.length; index++) {
+        if (room == codigos[index]) {
+            return true
+        }
+    }
+    return false
+}
+
+const codigos = []

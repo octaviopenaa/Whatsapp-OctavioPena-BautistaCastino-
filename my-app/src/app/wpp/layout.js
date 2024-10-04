@@ -10,13 +10,34 @@ import FormContacto from "../components/formcontacto";
 import { ContactProvider, useContacts } from "../context/ContactContext";
 import ContactManager from "../components/contactManager";
 
-export default function RootLayout({ children}) {
+export default function RootLayout({ children }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const openForm = () => setIsFormOpen(true);
   const closeForm = () => setIsFormOpen(false);
   const [contacts, setContacts] = useState([]);
+  const [userId, setUserId] = useState(null);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const UsuarioId = params.get("idUsuario");
+    if (UsuarioId !== userId) {
+      setUserId(UsuarioId);
+    }
+  }, [userId]);
+
+
+  useEffect(() => {
+
+    if (userId != null) {
+      console.log(userId)
+    traerContactos();
+
+    }
+  }, [userId]);
+
+  // Función para cargar contactos
   async function traerContactos() {
+    let contactos = []
     const response = await fetch('http://localhost:7000/Contactos', {
       method: "GET",
       headers: {
@@ -24,9 +45,17 @@ export default function RootLayout({ children}) {
       },
     });
     const data = await response.json();
-    console.log(data);
-    return data
+    for (let index = 0; index < data.length; index++) {
+      if (data[index].id_usuario == userId) {
+        contactos.push(data[index])
+      }
+
+    }
+    console.log("data", data)
+    setContacts(contactos); // Almacenar los contactos
+    console.log("contactos de la persona", contactos)
   }
+
 
   function handleContactClick(contact) {
     setActiveContacts((prev) => {
@@ -35,17 +64,17 @@ export default function RootLayout({ children}) {
         return [...prev, contact];
       }
       return prev;
-  });
-}
+    });
+  }
 
-  useEffect(() => {
-    async function loadContacts() {
-      const contactData = await traerContactos(); // Fetch real de la API
-      setContacts(contactData);
-    };
+  // useEffect(() => {
+  //   async function loadContacts() {
+  //     const contactData = await traerContactos(); // Fetch real de la API
+  //     setContacts(contactData);
+  //   };
 
-    loadContacts();
-  }, [])
+  //   loadContacts();
+  // }, [])
   return (
     <ContactProvider>
       <html lang="en">
@@ -83,7 +112,7 @@ export default function RootLayout({ children}) {
               <seccion>
                 <header className={styles.header}>
                   <Titulo text="Chats" variant="wpp" />
-                  <Titulo text="tu id es:" variant="wpp"/>
+                  <Titulo text="tu id es:" variant="wpp" />
                 </header>
                 <div>
                   <Input placeholder="Buscar" variant="Buscar" />
@@ -95,7 +124,9 @@ export default function RootLayout({ children}) {
                 </div>
               </seccion>
               <seccion className={styles.contactos}>
-                <ContactManager/>
+                <ContactManager
+                  contactos={contacts}
+                />
               </seccion>
             </seccion>
 

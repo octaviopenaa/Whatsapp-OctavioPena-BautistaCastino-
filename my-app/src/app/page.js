@@ -58,7 +58,7 @@ const MiComponente = () => {
           if (result.validation === 1) {
             setLoginNoti('Te logueaste con exito'); // Mensaje en verde
             setLoginError(''); // Limpiar error si lo había
-            router.push("/wpp");
+            router.push(`/wpp?idUsuario=${result.usuario.id_usuario}`);
           } else if (result.validation === -1) {
             setLoginError('Nombre de usuario, contraseña, o telefono incorrectos'); // Mensaje en rojo
             setLoginNoti(''); // Limpiar éxito si lo había

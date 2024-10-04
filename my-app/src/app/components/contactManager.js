@@ -5,27 +5,10 @@ import { useEffect, useState } from "react";
 import styles from "../components/contactManager.module.css";
 import { useSocket } from "../hooks/useSocket";
 
-export default function ContactManager() {
-  const [contacts, setContacts] = useState([]);
+export default function ContactManager({contactos}) {
   const {setActiveContacts } = useContacts(); // Ahora disponible dentro del contexto
   const { socket } = useSocket();
-
-  // Función para cargar contactos
-  async function traerContactos() {
-    const response = await fetch('http://localhost:7000/Contactos', {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    setContacts(data); // Almacenar los contactos
-  }
-
-  useEffect(() => {
-    traerContactos();
-  }, []);
-
+  
   function handleContactClick(contact) {
     // Evitar agregar contactos duplicados
     setActiveContacts([contact]);
@@ -36,7 +19,7 @@ export default function ContactManager() {
 
   return (
     <div className={styles.div_chatbuttons}>
-      {contacts.map((contact) => (
+      {contactos.map((contact) => (
         <Chatbutton
           key={contact.telefono}
           srcImg={contact.urlImagen}
