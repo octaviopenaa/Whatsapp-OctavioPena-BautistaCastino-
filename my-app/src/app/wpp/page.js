@@ -16,20 +16,14 @@ export default function home({}) {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
 
+
+
     useEffect(() => {
         // Evitar que genere errores si no esta el socket
         if (!socket) return;
 
-        socket.on('pingAll', (data) => {
-            console.log("me llego mensaje", data);
-        })
-
-        socket.on('newMessage', (data) => {
-            console.log("Mensaje de la sala", data);
-        })
-
-        socket.on('pingAll', (data) => {
-            console.log("me llego mensaje", data);
+        socket.on('newMessage',() => {
+            console.log("Mensaje de la sala", message);
         })
 
     }, [socket, isConnected]);
@@ -51,42 +45,6 @@ export default function home({}) {
         setMessage(event.target.value);
     }
     //<Button onClick={()=>socket.emit('joinRoom',{room:"boca"})} text="Conectar/ Unirse a la sala"/>
-
-    async function traerContactos() {
-        const response = await fetch('http://localhost:7000/Contactos', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const result = await response.json();
-        console.log(result);
-        return result
-    }
-
-    async function traerChats() {
-        const response = await fetch('http://localhost:7000/Chats', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const result = await response.json();
-        console.log(result);
-        return result
-    }
-
-    async function traerMensajes() {
-        const response = await fetch('http://localhost:7000/Mensajes', {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        const result = await response.json();
-        console.log(result);
-        return result
-    }
 
 
     return (

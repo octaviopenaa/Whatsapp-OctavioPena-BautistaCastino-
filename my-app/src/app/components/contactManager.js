@@ -11,9 +11,10 @@ export default function ContactManager({contactos}) {
   
   function handleContactClick(contact) {
     // Evitar agregar contactos duplicados
+    const sala = "boca"
     setActiveContacts([contact]);
-    socket.emit('joinRoom',{room:"boca"})
     console.log("Contacto seleccionado:", contact);
+    socket.emit('joinRoom',{room : sala})
   }
 
 

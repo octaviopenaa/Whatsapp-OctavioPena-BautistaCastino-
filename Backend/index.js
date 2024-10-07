@@ -181,6 +181,7 @@ app.post('/validarUsuario', async (req, res) => {
 
     socket.on('sendMessage', data => {
         io.to(req.session.room).emit('newMessage', { room: req.session.room, message: data });
+        console.log("mandaste este mensaje: ", data)
     });
 
     socket.on('disconnect', () => {
