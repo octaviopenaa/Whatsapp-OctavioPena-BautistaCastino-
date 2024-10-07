@@ -112,7 +112,6 @@ export default function RootLayout({ children }) {
               <seccion>
                 <header className={styles.header}>
                   <Titulo text="Chats" variant="wpp" />
-                  <Titulo text="tu id es:" variant="wpp" />
                 </header>
                 <div>
                   <Input placeholder="Buscar" variant="Buscar" />

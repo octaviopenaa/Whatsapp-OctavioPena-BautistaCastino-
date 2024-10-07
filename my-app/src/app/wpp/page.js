@@ -17,21 +17,15 @@ export default function home({}) {
     const [messages, setMessages] = useState([]);
 
 
-
     useEffect(() => {
         // Evitar que genere errores si no esta el socket
+        console.log(socket)
         if (!socket) return;
-
-        socket.on('newMessage',() => {
-            console.log("Mensaje de la sala", message);
+        console.log("hola")
+        socket.on('newMessage',(messages) => {
+            console.log("Mensaje de la sala", messages);
         })
-
     }, [socket, isConnected]);
-
-
-    function handleClick() {
-        socket.emit('pingAll', { message: "facu pit chico" })
-    }
 
     function handleSendMessage() {
         if (message.trim() === "") return;
@@ -45,7 +39,6 @@ export default function home({}) {
         setMessage(event.target.value);
     }
     //<Button onClick={()=>socket.emit('joinRoom',{room:"boca"})} text="Conectar/ Unirse a la sala"/>
-
 
     return (
         <div className={styles.div_child}>
