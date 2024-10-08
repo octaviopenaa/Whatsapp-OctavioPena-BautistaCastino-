@@ -25,19 +25,28 @@ export default function home({}) {
     
         console.log("Socket conectado:", socket);
         
-        // Suscribir al evento de 'newMessage' para recibir mensajes
         socket.on('newMessage', (data) => {
             console.log("Nuevo mensaje recibido en la sala:", data);
             setMessages((prevMessages) => [...prevMessages, data.message]);
         });
-    
-        // Limpiar el evento cuando el componente se desmonta
+
         return () => {
             console.log("Limpiando evento 'newMessage'");
             socket.off('newMessage');
         };
     }, [socket, isConnected]);
     
+    useEffect(() =>{
+        if (!messages){
+            console.log("No se mando ningun mensaje");
+            return;
+        }
+
+        console.log(messages);
+
+
+
+    },[messages]);
 
     function handleSendMessage() {
         const roomName = "boca"; // El nombre de la sala debe coincidir con el del componente de contactos
@@ -50,6 +59,7 @@ export default function home({}) {
         // Añadir el mensaje al estado local para mostrarlo en la interfaz
         setMessages((prevMessages) => [...prevMessages, message]);
         setMessage(""); // Limpiar el input después de enviar
+        console.log(messages);
     }
 
     function handleChangeInput(event) {
