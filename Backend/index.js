@@ -180,7 +180,8 @@ app.post('/validarUsuario', async (req, res) => {
     });
 
     socket.on('sendMessage', data => {
-        io.to(req.session.room).emit('newMessage', { room: req.session.room, message: data });
+        console.log("sala: ", data.room)
+        io.to(data.room).emit('newMessage', {message: data.message });
         console.log("mandaste este mensaje: ", data)
     });
 
@@ -192,11 +193,6 @@ app.post('/validarUsuario', async (req, res) => {
         socket.leave(req.session.room);
         console.log("Disconnect");
     })
-
-    socket.on('visto', data => {
-        console.log(data)
-        io.to(req.session.room).emit('nuevoVisto', { room: req.session.room, message: data });
-    });
 
 });
 

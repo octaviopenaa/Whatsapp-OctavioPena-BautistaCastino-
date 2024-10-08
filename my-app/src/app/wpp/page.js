@@ -18,20 +18,37 @@ export default function home({}) {
 
 
     useEffect(() => {
-        // Evitar que genere errores si no esta el socket
-        console.log(socket)
-        if (!socket) return;
-        console.log("hola")
-        socket.on('newMessage',(messages) => {
-            console.log("Mensaje de la sala", messages);
-        })
+        if (!socket || !isConnected) {
+            console.log("Socket no está disponible aún.");
+            return;
+        }
+    
+        console.log("Socket conectado:", socket);
+        
+        // Suscribir al evento de 'newMessage' para recibir mensajes
+        socket.on('newMessage', (data) => {
+            console.log("Nuevo mensaje recibido en la sala:", data);
+            setMessages((prevMessages) => [...prevMessages, data.message]);
+        });
+    
+        // Limpiar el evento cuando el componente se desmonta
+        return () => {
+            console.log("Limpiando evento 'newMessage'");
+            socket.off('newMessage');
+        };
     }, [socket, isConnected]);
+    
 
     function handleSendMessage() {
+        const roomName = "boca"; // El nombre de la sala debe coincidir con el del componente de contactos
         if (message.trim() === "") return;
-        socket.emit('sendMessage', { message: message })
-        console.log(message)
-        setMessages((prevMessages) => [...prevMessages, message]); // Añadir el mensaje al estado
+        
+        // Enviar el mensaje a la sala "chat-room"
+        socket.emit('sendMessage', { room: roomName, message });
+        console.log("Mensaje enviado a la sala:", message);
+
+        // Añadir el mensaje al estado local para mostrarlo en la interfaz
+        setMessages((prevMessages) => [...prevMessages, message]);
         setMessage(""); // Limpiar el input después de enviar
     }
 
