@@ -24,7 +24,7 @@ export default function ContactManager({contactos}) {
       {contactos.map((contact) => (
         <Chatbutton
           key={contact.telefono}
-          srcImg={contact.urlImagen}
+          srcImg={contact.imagenContacto}
           alt={contact.nombre}
           contacto={contact.usuarioContacto}
           onClick={() => handleContactClick(contact)}

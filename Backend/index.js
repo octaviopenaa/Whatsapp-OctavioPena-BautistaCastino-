@@ -49,6 +49,14 @@ app.get('/Contactos', async function(req,res){
     res.send(respuesta)
 })
 
+app.get('/DEPORTISTAS', async function(req,res){
+    console.log(req.query) 
+    const respuesta = await MySQL.realizarQuery(`
+    SELECT * FROM DEPORTISTAS;
+    `)
+    res.send(respuesta)
+})
+
 app.get('/usuarios', async function(req,res){
     console.log(req.query) 
     const respuesta = await MySQL.realizarQuery(`

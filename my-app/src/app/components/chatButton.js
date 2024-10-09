@@ -8,7 +8,7 @@ export default function Chatbutton({contacto,srcImg,alt,variant,onClick}) {
         })} onClick={onClick}>
             <div>
                 <img
-                    src={srcImg || '/images/fotoDePerfilPredem.jpg'}
+                    src={`/images/${srcImg}`}
                     width={50}
                     height={50}
                     alt={alt}

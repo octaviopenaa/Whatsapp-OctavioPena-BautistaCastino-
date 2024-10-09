@@ -73,7 +73,7 @@ export default function home({}) {
                 {activeContacts.map((contact) => (
                     <Chatbutton
                         key={contact.telefono} // Añadir una clave única
-                        srcImg={contact.urlImagen}
+                        srcImg={contact.imagenContacto}
                         alt={contact.nombre}
                         contacto={contact.usuarioContacto}
                         variant="barra"  // Variante para la barra de contactos
