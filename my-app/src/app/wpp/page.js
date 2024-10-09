@@ -24,10 +24,16 @@ export default function home({}) {
         }
     
         console.log("Socket conectado:", socket);
-        
+        /*
         socket.on('newMessage', (data) => {
+            console.log("HOLALALDS")
             console.log("Nuevo mensaje recibido en la sala:", data);
-            setMessages((prevMessages) => [...prevMessages, data.message]);
+            // setMessages((prevMessages) => [...prevMessages, data.message]);
+        });
+
+        */
+        socket.on('newMessage', data => {
+            console.log("ASDASDAS");
         });
 
         return () => {
@@ -53,8 +59,7 @@ export default function home({}) {
         if (message.trim() === "") return;
         
         // Enviar el mensaje a la sala "chat-room"
-        socket.emit('sendMessage', { room: roomName, message });
-        console.log("Mensaje enviado a la sala:", message);
+        socket.emit('sendMessage', { room: roomName, message: message });
 
         // Añadir el mensaje al estado local para mostrarlo en la interfaz
         setMessages((prevMessages) => [...prevMessages, message]);

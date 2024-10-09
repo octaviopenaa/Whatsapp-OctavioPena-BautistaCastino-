@@ -164,19 +164,19 @@ app.post('/validarUsuario', async (req, res) => {
     const req = socket.request;
 
     socket.on('joinRoom', data => {
-        console.log("🚀 ~ io.on ~ req.session.room:", req.session.room)
         if (existeSala(data.room)) {
             if (req.session.room != undefined && req.session.room.length > 0)
                 socket.leave(req.session.room);
             req.session.room = data.room;
             socket.join(req.session.room);
-            console.log("entraste")
+            console.log("entraste ", req.session.room)
             io.to(req.session.room).emit('entroSala', { room: req.session.room, success: true });
         }
         else {
             codigos.push(data.room)
             req.session.room = data.room;
             socket.join(req.session.room);
+            console.log("se creo ", req.session.room)
             io.to(req.session.room).emit('salaCreada', { room: req.session.room, success: true });
         }
 
@@ -189,8 +189,9 @@ app.post('/validarUsuario', async (req, res) => {
 
     socket.on('sendMessage', data => {
         console.log("sala: ", data.room)
-        io.to(data.room).emit('newMessage', {message: data.message });
-        console.log("mandaste este mensaje: ", data)
+        console.log("sala: ", data.message)
+        io.to(data.room).emit('newMessage', {message: data.message});
+        console.log("mandaste este mensaje: ", data.message)
     });
 
     socket.on('disconnect', () => {
